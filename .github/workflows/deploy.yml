@@ -3,7 +3,7 @@ name: Deploy to Render
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.11'  # use a versão que você está usando no seu projeto
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
@@ -25,9 +25,13 @@ jobs:
 
       - name: Run migrations
         run: |
-          python manage.py migrate
+          python manage.py migrate --noinput
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      - name: Trigger deploy on Render
+      - name: Deploy to Render
         run: |
-          curl -X POST https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -d '{"branch":"main"}' \
+            https://api.render.com/v1/services/YOUR_RENDER_SERVICE_ID/deploys
