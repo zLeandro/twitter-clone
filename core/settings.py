@@ -75,7 +75,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('SQL_DATABASE', 'twitter-clone'),
+        'NAME': os.getenv('SQL_DATABASE', 'twitter_clone_db_4yez'),
         'USER': os.getenv('SQL_USER', 'twitter_clone_db_4yez_user'),
         'PASSWORD': os.getenv('SQL_PASSWORD', 'IjZTPP8O1nrfwfabfhM2IlFPTmc9CdqA'),
         'HOST': os.getenv('SQL_HOST', 'dpg-d04kp8juibrs73b6fr50-a.oregon-postgres.render.com'),
