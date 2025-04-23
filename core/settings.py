@@ -78,10 +78,12 @@ DATABASES = {
         'NAME': os.getenv('SQL_DATABASE', 'twitter-clone'),
         'USER': os.getenv('SQL_USER', 'twitter_clone_db_4yez_user'),
         'PASSWORD': os.getenv('SQL_PASSWORD', 'IjZTPP8O1nrfwfabfhM2IlFPTmc9CdqA'),
-        'HOST': os.getenv('SQL_HOST', 'dpg-d04kp8juibrs73b6fr50-a'),
+        'HOST': os.getenv('SQL_HOST', 'dpg-d04kp8juibrs73b6fr50-a.oregon-postgres.render.com'),
         'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
+
+SQL_HOST="dpg-d04kp8juibrs73b6fr50-a.oregon-postgres.render.com"
 
 
 # Password validation
