@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'cXEcGvHNXWFD5y7rCenSY_LWyYCM8J_Q4Ak5BqrEC6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,twitter-clone.render.com,twitter-clone.onrender.com').split(',')
+ALLOWED_HOSTS = ['twitter-clone.render.com', 'localhost', '127.0.0.1']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
