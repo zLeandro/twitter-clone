@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -113,3 +114,8 @@ class EditarPerfilView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+def home_view(request):
+    return HttpResponse("Bem-vindo à página inicial!")
