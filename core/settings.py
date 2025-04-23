@@ -9,12 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'chave_insegura_para_dev')
+SECRET_KEY = os.getenv('SECRET_KEY', 'cXEcGvHNXWFD5y7rCenSY_LWyYCM8J_Q4Ak5BqrEC6HbuvDiyn3T7Mz2i79-KzsELWg')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,twitter-clone.render.com,twitter-clone.onrender.com').split(',')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -74,12 +74,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.getenv('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
-        'USER': os.getenv('SQL_USER', ''),
-        'PASSWORD': os.getenv('SQL_PASSWORD', ''),
-        'HOST': os.getenv('SQL_HOST', ''),
-        'PORT': os.getenv('SQL_PORT', ''),
+        'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('SQL_DATABASE', 'twitter'),
+        'USER': os.getenv('SQL_USER', 'twitter_clone_db_4yez_user'),
+        'PASSWORD': os.getenv('SQL_PASSWORD', 'IjZTPP8O1nrfwfabfhM2IlFPTmc9CdqA'),
+        'HOST': os.getenv('SQL_HOST', 'dpg-d04kp8juibrs73b6fr50-a'),
+        'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
 
