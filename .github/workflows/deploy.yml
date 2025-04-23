@@ -23,15 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run migrations
-        run: |
-          python manage.py migrate --noinput
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
       - name: Deploy to Render
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -d '{"branch":"main"}' \
-            https://api.render.com/v1/services/YOUR_RENDER_SERVICE_ID/deploys
+            https://api.render.com/v1/services/d04l0lqli9vc73espm2g/deploys
+
+      - name: Run migrations on Render
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.RENDER_SSH_PRIVATE_KEY }} user@<your_render_host> "cd /path/to/your/project && python manage.py migrate --noinput"
