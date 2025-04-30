@@ -18,11 +18,11 @@ ALLOWED_HOSTS = ['twitter-clone.render.com', 'localhost', '127.0.0.1', 'twitter-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
 }
 
 INSTALLED_APPS = [
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "contas",
     "postagens",
     "comentarios",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 MIDDLEWARE = [

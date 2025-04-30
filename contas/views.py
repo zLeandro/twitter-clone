@@ -9,9 +9,11 @@ from postagens.serializers import PostagemSerializer
 from .models import Seguidor
 from .serializers import SeguirSerializer, UserProfileSerializer
 from .serializers import UsuarioSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 User = get_user_model()
 
+# View de registro de usuário
 class RegistroUsuarioView(APIView):
     permission_classes = [AllowAny]
 
@@ -22,13 +24,11 @@ class RegistroUsuarioView(APIView):
             return Response({"id": usuario.id, "username": usuario.username}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# View para seguir usuário
 class SeguirUsuarioView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        """
-        Seguir outro usuário.
-        """
         try:
             segue_usuario = get_user_model().objects.get(pk=pk)
         except get_user_model().DoesNotExist:
@@ -44,39 +44,7 @@ class SeguirUsuarioView(APIView):
         seguidor = Seguidor.objects.create(usuario=request.user, segue=segue_usuario)
         return Response(SeguirSerializer(seguidor).data, status=status.HTTP_201_CREATED)
 
-class DesseguirUsuarioView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, pk):
-        """
-        Desseguir outro usuário.
-        """
-        try:
-            segue_usuario = get_user_model().objects.get(pk=pk)
-        except get_user_model().DoesNotExist:
-            return Response({'erro': 'Usuário não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
-
-        relacionamento = Seguidor.objects.filter(usuario=request.user, segue=segue_usuario).first()
-
-        if not relacionamento:
-            return Response({'erro': 'Você não segue este usuário.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        relacionamento.delete()
-        return Response({'mensagem': 'Usuário desseguido com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
-
-
-class FeedPersonalizadoView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        usuarios_seguidos = Seguidor.objects.filter(usuario=request.user).values_list('segue', flat=True)
-
-        postagens = Postagem.objects.filter(user__in=usuarios_seguidos).order_by('-data_criacao')
-
-        serializer = PostagemSerializer(postagens, many=True)
-
-        return Response(serializer.data)
-
+# View para desseguir usuário
 class DesseguirUsuarioView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -96,7 +64,17 @@ class DesseguirUsuarioView(APIView):
         else:
             return Response({"erro": "Você não segue este usuário."}, status=status.HTTP_400_BAD_REQUEST)
 
+# View para o feed personalizado
+class FeedPersonalizadoView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        usuarios_seguidos = Seguidor.objects.filter(usuario=request.user).values_list('segue', flat=True)
+        postagens = Postagem.objects.filter(user__in=usuarios_seguidos).order_by('-data_criacao')
+        serializer = PostagemSerializer(postagens, many=True)
+        return Response(serializer.data)
+
+# View para editar perfil
 class EditarPerfilView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -115,7 +93,15 @@ class EditarPerfilView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# View para registrar e obter o token (login com JWT)
+class CustomTokenObtainPairView(TokenObtainPairView):
+    # Se necessário, você pode customizar a resposta aqui
+    pass
 
+# Views para o login e refresh do token
+class TokenRefreshView(TokenRefreshView):
+    pass
 
+# View da página inicial (não é necessária para login, mas pode ser usada como "home")
 def home_view(request):
     return HttpResponse("Bem-vindo à página inicial!")
