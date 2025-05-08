@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -13,7 +13,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 User = get_user_model()
 
-# View de registro de usuário
+# registro de usuario
 class RegistroUsuarioView(APIView):
     permission_classes = [AllowAny]
 
@@ -24,7 +24,7 @@ class RegistroUsuarioView(APIView):
             return Response({"id": usuario.id, "username": usuario.username}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# View para seguir usuário
+# seguir usuario
 class SeguirUsuarioView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -44,7 +44,7 @@ class SeguirUsuarioView(APIView):
         seguidor = Seguidor.objects.create(usuario=request.user, segue=segue_usuario)
         return Response(SeguirSerializer(seguidor).data, status=status.HTTP_201_CREATED)
 
-# View para desseguir usuário
+#  desseguir usuario
 class DesseguirUsuarioView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -64,7 +64,7 @@ class DesseguirUsuarioView(APIView):
         else:
             return Response({"erro": "Você não segue este usuário."}, status=status.HTTP_400_BAD_REQUEST)
 
-# View para o feed personalizado
+#  feed
 class FeedPersonalizadoView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -74,7 +74,7 @@ class FeedPersonalizadoView(APIView):
         serializer = PostagemSerializer(postagens, many=True)
         return Response(serializer.data)
 
-# View para editar perfil
+#  editar perfil
 class EditarPerfilView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -93,15 +93,17 @@ class EditarPerfilView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# View para registrar e obter o token (login com JWT)
 class CustomTokenObtainPairView(TokenObtainPairView):
-    # Se necessário, você pode customizar a resposta aqui
     pass
 
-# Views para o login e refresh do token
 class TokenRefreshView(TokenRefreshView):
     pass
 
-# View da página inicial (não é necessária para login, mas pode ser usada como "home")
+#  pagina inicial
 def home_view(request):
     return HttpResponse("Bem-vindo à página inicial!")
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UsuarioSerializer
+    permission_classes = [IsAuthenticated]

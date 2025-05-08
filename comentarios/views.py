@@ -41,7 +41,6 @@ class DeletarComentarioView(APIView):
         except Comentario.DoesNotExist:
             return Response({"erro": "Comentário não encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Verificar se o usuário é o dono do comentário ou um superusuário
         if comentario.user != request.user:
             return Response({"erro": "Você não pode deletar um comentário que não é seu."}, status=status.HTTP_403_FORBIDDEN)
 

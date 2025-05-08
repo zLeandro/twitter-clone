@@ -9,6 +9,10 @@ class CriarPostagemView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        conteudo = request.data.get('conteudo', '').strip()
+        if not conteudo:
+            return Response({"erro": "Conteúdo da postagem não pode ser vazio."}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = PostagemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
