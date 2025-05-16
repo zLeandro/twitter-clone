@@ -18,7 +18,7 @@ ALLOWED_HOSTS = ['twitter-clone.render.com', 'localhost', '127.0.0.1', 'twitter-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "corsheaders",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -88,12 +87,11 @@ DATABASES = {
         'NAME': os.getenv('SQL_DATABASE', 'twitter_clone_db_4yez'),
         'USER': os.getenv('SQL_USER', 'twitter_clone_db_4yez_user'),
         'PASSWORD': os.getenv('SQL_PASSWORD', 'IjZTPP8O1nrfwfabfhM2IlFPTmc9CdqA'),
-        'HOST': os.getenv('SQL_HOST', 'dpg-d04kp8juibrs73b6fr50-a') + '.oregon-postgres.render.com',
+        'HOST': os.getenv('SQL_HOST', 'dpg-d04kp8juibrs73b6fr50-a.oregon-postgres.render.com'),
         'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
 
-SQL_HOST="dpg-d04kp8juibrs73b6fr50-a.oregon-postgres.render.com"
 
 
 # Password validation
