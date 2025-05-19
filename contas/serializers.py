@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Seguidor, CustomUser
+from .models import Seguidor
 
+User = get_user_model()
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,11 +29,10 @@ class SeguirSerializer(serializers.ModelSerializer):
         fields = ['id', 'usuario', 'segue', 'data_criacao']
 
     def create(self, validated_data):
-
         validated_data.pop('data_criacao', None)
         return Seguidor.objects.create(**validated_data)
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
+        model = User
         fields = ['username', 'bio', 'profile_picture']

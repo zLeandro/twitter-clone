@@ -6,17 +6,19 @@ from .views import (
     DesseguirUsuarioView,
     FeedPersonalizadoView,
     EditarPerfilView,
-    UsuarioViewSet
+    UsuarioViewSet,
+    CustomTokenObtainPairView,
+    TokenRefreshView,
 )
 
-# CRIAÇÃO DO ROUTER
 router = DefaultRouter()
 router.register(r'usuarios', UsuarioViewSet, basename='usuario')
 
-# URLPATTERNS
 urlpatterns = [
-    path('', include(router.urls)),  # inclui as rotas do ViewSet
+    path('', include(router.urls)),
     path('registrar/', RegistroUsuarioView.as_view(), name='registrar'),
+    path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('seguir/<int:pk>/', SeguirUsuarioView.as_view(), name='seguir_usuario'),
     path('desseguir/<int:pk>/', DesseguirUsuarioView.as_view(), name='desseguir_usuario'),
     path('feed/', FeedPersonalizadoView.as_view(), name='feed_personalizado'),
