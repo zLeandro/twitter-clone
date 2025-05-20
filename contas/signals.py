@@ -16,7 +16,7 @@ def criar_token_autenticacao(sender, instance=None, created=False, **kwargs):
             Token.objects.get_or_create(user=instance)
         except Exception:
             print("Erro ao criar token para o usuário:")
-            traceback.print_exc()  # isso vai printar o erro no terminal
+            traceback.print_exc()
 
     if created:
         transaction.on_commit(criar_token)

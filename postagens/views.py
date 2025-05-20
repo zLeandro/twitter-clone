@@ -9,6 +9,7 @@ class CriarPostagemView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        print("Dados recebidos na criação:", request.data)
         conteudo = request.data.get('conteudo', '').strip()
         if not conteudo:
             return Response({"erro": "Conteúdo da postagem não pode ser vazio."}, status=status.HTTP_400_BAD_REQUEST)
