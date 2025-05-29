@@ -12,17 +12,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'cXEcGvHNXWFD5y7rCenSY_LWyYCM8J_Q4Ak5BqrEC6HbuvDiyn3T7Mz2i79-KzsELWg')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = ['twitter-clone.render.com', 'localhost', '127.0.0.1', 'twitter-clone-y2ep.onrender.com', 'twitter-clone-htwu.onrender.com']
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-    ],
+    ),
 }
 
 INSTALLED_APPS = [
@@ -84,10 +84,10 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('SQL_DATABASE', 'twitter_clone_db_4yez'),
-        'USER': os.getenv('SQL_USER', 'twitter_clone_db_4yez_user'),
-        'PASSWORD': os.getenv('SQL_PASSWORD', 'IjZTPP8O1nrfwfabfhM2IlFPTmc9CdqA'),
-        'HOST': os.getenv('SQL_HOST', 'dpg-d04kp8juibrs73b6fr50-a.oregon-postgres.render.com'),
+        'NAME': os.getenv('SQL_DATABASE', 'twitter_clone_db_fnw6'),
+        'USER': os.getenv('SQL_USER', 'ebac'),
+        'PASSWORD': os.getenv('SQL_PASSWORD', 'uTtuy6oSK6EU8RuJCRhI1NUn8zQ8WbIN'),
+        'HOST': os.getenv('SQL_HOST', 'dpg-d0ppks3uibrs7381fqa0-a.oregon-postgres.render.com'),
         'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
@@ -130,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -138,3 +138,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'contas.CustomUser'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'

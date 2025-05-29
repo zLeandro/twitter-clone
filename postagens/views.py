@@ -9,7 +9,6 @@ class CriarPostagemView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        print("Dados recebidos na criação:", request.data)
         conteudo = request.data.get('conteudo', '').strip()
         if not conteudo:
             return Response({"erro": "Conteúdo da postagem não pode ser vazio."}, status=status.HTTP_400_BAD_REQUEST)
@@ -20,13 +19,15 @@ class CriarPostagemView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ListarPostagensView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         postagens = Postagem.objects.all().order_by('-data_criacao')
-        serializer = PostagemSerializer(postagens, many=True)
+        serializer = PostagemSerializer(postagens, many=True, context={'request': request})
         return Response(serializer.data)
+
 
 class CurtirPostagemView(APIView):
     permission_classes = [IsAuthenticated]
@@ -43,6 +44,7 @@ class CurtirPostagemView(APIView):
             return Response({"mensagem": "Você já curtiu essa postagem."}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({"mensagem": "Postagem curtida com sucesso!"}, status=status.HTTP_201_CREATED)
+
 
 class DescurtirPostagemView(APIView):
     permission_classes = [IsAuthenticated]

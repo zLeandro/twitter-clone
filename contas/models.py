@@ -1,9 +1,20 @@
+import os
+from django.utils.crypto import get_random_string
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.utils import timezone
+from django.core.exceptions import ValidationError
 
+def profile_picture_upload_path(instance, filename):
+    base, ext = os.path.splitext(filename)
+    ext = ext.lower()
+
+    if base.endswith('.jpeg') or base.endswith('.jpg') or base.endswith('.png'):
+        base = base.rsplit('.', 1)[0]
+
+    new_filename = f"{get_random_string(12)}{ext}"
+
+    return os.path.join('profile_pics', new_filename)
 
 class CustomUser(AbstractUser):
     groups = models.ManyToManyField(
@@ -18,11 +29,29 @@ class CustomUser(AbstractUser):
     )
     bio = models.TextField(blank=True, null=True)
 
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    profile_picture = models.ImageField(
+        upload_to=profile_picture_upload_path,
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        ordering = ['username']
 
 class Seguidor(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="seguindo", on_delete=models.CASCADE)
-    seguido = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="seguidores", on_delete=models.CASCADE)
+    usuario = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='seguindo'
+    )
+    seguido = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='seguidores'
+    )
+
+    class Meta:
+        unique_together = ('usuario', 'seguido')
 
     def __str__(self):
-        return f"{self.usuario} segue {self.seguido}"
+        return f'{self.usuario} segue {self.seguido}'

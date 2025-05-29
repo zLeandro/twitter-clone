@@ -9,6 +9,8 @@ from .views import (
     UsuarioViewSet,
     CustomTokenObtainPairView,
     TokenRefreshView,
+    PerfilView,
+    PerfilUsuarioView,
 )
 
 router = DefaultRouter()
@@ -22,5 +24,7 @@ urlpatterns = [
     path('seguir/<int:pk>/', SeguirUsuarioView.as_view(), name='seguir_usuario'),
     path('desseguir/<int:pk>/', DesseguirUsuarioView.as_view(), name='desseguir_usuario'),
     path('feed/', FeedPersonalizadoView.as_view(), name='feed_personalizado'),
-    path('perfil/', EditarPerfilView.as_view(), name='editar_perfil'),
+    path('perfil/editar/', EditarPerfilView.as_view(), name='editar_perfil'),
+    path('perfil/', PerfilView.as_view(), name='perfil'),
+    path('perfil/<str:username>/', PerfilUsuarioView.as_view(), name='perfil_usuario'),
 ]

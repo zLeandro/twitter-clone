@@ -28,7 +28,7 @@ class ListarComentariosView(APIView):
 
     def get(self, request, postagem_id):
         comentarios = Comentario.objects.filter(postagem_id=postagem_id).order_by('-data_criacao')
-        serializer = ComentarioSerializer(comentarios, many=True)
+        serializer = ComentarioSerializer(comentarios, many=True, context={'request': request})
         return Response(serializer.data)
 
 
