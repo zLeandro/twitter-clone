@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,6 +57,13 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'https://twitter-clone-frontend-g18t.onrender.com',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Content-Type',
+    'Authorization',
 ]
 
 ROOT_URLCONF = "core.urls"
