@@ -55,7 +55,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    'https://twitter-clone-frontend-g18t.onrender.com',
 ]
 
 ROOT_URLCONF = "core.urls"
