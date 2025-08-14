@@ -92,11 +92,14 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('SQL_DATABASE', 'twitter_clone_db_fnw6'),
+        'NAME': os.getenv('SQL_DATABASE', 'twitter_clone_db_fnw6_w8wi'),
         'USER': os.getenv('SQL_USER', 'ebac'),
         'PASSWORD': os.getenv('SQL_PASSWORD', 'uTtuy6oSK6EU8RuJCRhI1NUn8zQ8WbIN'),
-        'HOST': os.getenv('SQL_HOST', 'dpg-d0ppks3uibrs7381fqa0-a.oregon-postgres.render.com'),
+        'HOST': os.getenv('SQL_HOST', 'dpg-d2f3ovk9c44c73dpatj0-a.oregon-postgres.render.com'),
         'PORT': os.getenv('SQL_PORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
